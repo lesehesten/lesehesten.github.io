@@ -1,6 +1,6 @@
 (function () {
   'use strict';
-  var PRICE = 249;
+  var PRICE = 299;
   var fmt = function (n) { return n.toLocaleString('nb-NO') + ' kr'; };
 
   var form = document.getElementById('order-form');
@@ -26,7 +26,7 @@
     var t = fmt(n * PRICE);
     sum.textContent = t;
     btnSum.textContent = t;
-    totalField.value = n + ' × 249 kr = ' + t;
+    totalField.value = n + ' × 299 kr = ' + t;
   }
   qty.addEventListener('input', updateTotal);
   document.querySelectorAll('.qty__btn').forEach(function (b) {
