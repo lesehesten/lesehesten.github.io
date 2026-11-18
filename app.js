@@ -1,6 +1,7 @@
 (function () {
   'use strict';
   var PRICE = 299;
+  var ORDER_KEY = 'lesehest-order';
   var fmt = function (n) { return n.toLocaleString('nb-NO') + ' kr'; };
 
   var form = document.getElementById('order-form');
@@ -24,97 +25,124 @@
   function updateTotal() {
     var n = Math.max(0, Math.min(50, count()));
     var t = fmt(n * PRICE);
-    sum.textContent = t;
-    btnSum.textContent = t;
-    totalField.value = n + ' × 299 kr = ' + t;
+    if (sum) sum.textContent = t;
+    if (btnSum) btnSum.textContent = t;
+    if (totalField) totalField.value = n + ' × 299 kr = ' + t;
+    return { n: n, total: n * PRICE, totalText: t };
   }
-  qty.addEventListener('input', updateTotal);
-  document.querySelectorAll('.qty__btn').forEach(function (b) {
-    b.addEventListener('click', function () {
-      var n = count() + parseInt(b.getAttribute('data-step'), 10);
-      qty.value = Math.max(1, Math.min(50, n));
-      updateTotal();
-      validateField(qty);
-    });
-  });
 
-  var rules = {
-    navn: function (v) { return v.trim().length >= 2 ? '' : 'Skriv inn navnet ditt.'; },
-    epost: function (v) {
-      if (!v.trim()) return 'Skriv inn e-postadressen din.';
-      return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Sjekk at e-postadressen er riktig (f.eks. navn@eksempel.no).';
-    },
-    tlf: function (v) {
-      if (!v.trim()) return '';
-      return /^\+?[\d\s()-]{8,16}$/.test(v.trim()) ? '' : 'Telefonnummeret ser ikke riktig ut.';
-    },
-    adresse: function (v) { return v.trim().length >= 3 ? '' : 'Skriv inn adressen vi skal levere til.'; },
-    poststed: function (v) {
-      if (!v.trim()) return 'Skriv inn postnummer og sted.';
-      return /^\d{4}\s+\S+/.test(v.trim()) ? '' : 'Skriv inn postnummer og sted (f.eks. 4010 Stavanger).';
-    },
-    antall: function (v) {
-      var n = parseInt(v, 10);
-      if (isNaN(n) || n < 1) return 'Velg minst 1 bok.';
-      if (n > 50) return 'Vil du ha mer enn 50 bøker? Skriv det i meldingen.';
-      return '';
+  if (form && qty) {
+    qty.addEventListener('input', updateTotal);
+    document.querySelectorAll('.qty__btn').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = count() + parseInt(b.getAttribute('data-step'), 10);
+        qty.value = Math.max(1, Math.min(50, n));
+        updateTotal();
+        validateField(qty);
+      });
+    });
+
+    var rules = {
+      navn: function (v) { return v.trim().length >= 2 ? '' : 'Skriv inn navnet ditt.'; },
+      epost: function (v) {
+        if (!v.trim()) return 'Skriv inn e-postadressen din.';
+        return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim()) ? '' : 'Sjekk at e-postadressen er riktig (f.eks. navn@eksempel.no).';
+      },
+      tlf: function (v) {
+        if (!v.trim()) return '';
+        return /^\+?[\d\s()-]{8,16}$/.test(v.trim()) ? '' : 'Telefonnummeret ser ikke riktig ut.';
+      },
+      adresse: function (v) { return v.trim().length >= 3 ? '' : 'Skriv inn adressen vi skal levere til.'; },
+      poststed: function (v) {
+        if (!v.trim()) return 'Skriv inn postnummer og sted.';
+        return /^\d{4}\s+\S+/.test(v.trim()) ? '' : 'Skriv inn postnummer og sted (f.eks. 4010 Stavanger).';
+      },
+      antall: function (v) {
+        var n = parseInt(v, 10);
+        if (isNaN(n) || n < 1) return 'Velg minst 1 bok.';
+        if (n > 50) return 'Vil du ha mer enn 50 bøker? Skriv det i meldingen.';
+        return '';
+      }
+    };
+
+    function validateField(el) {
+      var rule = rules[el.id];
+      if (!rule) return true;
+      var msg = rule(el.value);
+      var err = document.getElementById(el.id + '-err');
+      if (err) err.textContent = msg;
+      el.setAttribute('aria-invalid', msg ? 'true' : 'false');
+      return !msg;
     }
-  };
 
-  function validateField(el) {
-    var rule = rules[el.id];
-    if (!rule) return true;
-    var msg = rule(el.value);
-    var err = document.getElementById(el.id + '-err');
-    if (err) err.textContent = msg;
-    el.setAttribute('aria-invalid', msg ? 'true' : 'false');
-    return !msg;
-  }
-
-  Object.keys(rules).forEach(function (id) {
-    var el = document.getElementById(id);
-    el.addEventListener('blur', function () { validateField(el); });
-    el.addEventListener('input', function () {
-      if (el.getAttribute('aria-invalid') === 'true') validateField(el);
-    });
-  });
-
-  form.addEventListener('submit', function (e) {
-    var firstBad = null;
     Object.keys(rules).forEach(function (id) {
       var el = document.getElementById(id);
-      if (!validateField(el) && !firstBad) firstBad = el;
-    });
-    if (firstBad) {
-      e.preventDefault();
-      firstBad.focus();
-      return;
-    }
-    updateTotal();
-    var btn = document.getElementById('submit-btn');
-    btn.disabled = true;
-    btn.textContent = 'Sender …';
-  });
-
-  // Skjul den faste mobilknappen når skjemaet, historien eller støtt-seksjonen er synlig
-  var sticky = document.getElementById('sticky-cta');
-  var hideWhen = ['bestill', 'historien', 'stott'];
-  if (sticky && 'IntersectionObserver' in window) {
-    var visible = {};
-    var syncSticky = function () {
-      var any = hideWhen.some(function (id) { return visible[id]; });
-      sticky.classList.toggle('is-hidden', any);
-    };
-    var obs = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        visible[entry.target.id] = entry.isIntersecting;
+      el.addEventListener('blur', function () { validateField(el); });
+      el.addEventListener('input', function () {
+        if (el.getAttribute('aria-invalid') === 'true') validateField(el);
       });
-      syncSticky();
-    }, { threshold: 0.15 });
-    hideWhen.forEach(function (id) {
-      var el = document.getElementById(id);
-      if (el) obs.observe(el);
     });
+
+    form.addEventListener('submit', function (e) {
+      var firstBad = null;
+      Object.keys(rules).forEach(function (id) {
+        var el = document.getElementById(id);
+        if (!validateField(el) && !firstBad) firstBad = el;
+      });
+      if (firstBad) {
+        e.preventDefault();
+        firstBad.focus();
+        return;
+      }
+      var data = updateTotal();
+      try {
+        sessionStorage.setItem(ORDER_KEY, JSON.stringify({
+          qty: data.n,
+          total: data.total,
+          totalText: data.totalText
+        }));
+      } catch (err) {}
+      var btn = document.getElementById('submit-btn');
+      btn.disabled = true;
+      btn.textContent = 'Sender …';
+    });
+
+    // Skjul den faste mobilknappen når skjemaet, historien eller støtt-seksjonen er synlig
+    var sticky = document.getElementById('sticky-cta');
+    var hideWhen = ['bestill', 'historien', 'stott'];
+    if (sticky && 'IntersectionObserver' in window) {
+      var visible = {};
+      var syncSticky = function () {
+        var any = hideWhen.some(function (id) { return visible[id]; });
+        sticky.classList.toggle('is-hidden', any);
+      };
+      var obs = new IntersectionObserver(function (entries) {
+        entries.forEach(function (entry) {
+          visible[entry.target.id] = entry.isIntersecting;
+        });
+        syncSticky();
+      }, { threshold: 0.15 });
+      hideWhen.forEach(function (id) {
+        var el = document.getElementById(id);
+        if (el) obs.observe(el);
+      });
+    }
+
+    updateTotal();
+  }
+
+  // Takk-side: vis beløpet fra bestillingen, ellers «299 kr per bok»
+  var payAmount = document.getElementById('pay-amount');
+  if (payAmount) {
+    var text = '299 kr per bok';
+    try {
+      var raw = sessionStorage.getItem(ORDER_KEY);
+      if (raw) {
+        var stored = JSON.parse(raw);
+        if (stored && stored.totalText) text = stored.totalText;
+      }
+    } catch (err) {}
+    payAmount.textContent = text;
   }
 
   // Kopier Vipps-nummer
@@ -155,6 +183,4 @@
       }
     });
   }
-
-  updateTotal();
 })();
