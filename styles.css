@@ -138,6 +138,7 @@ p{margin:0 0 1em}
 .order__intro{position:sticky;top:100px}
 .price-tag{display:inline-flex;align-items:baseline;gap:4px;background:var(--berry);color:#fff;border:3px solid var(--ink);border-radius:18px;padding:10px 22px;font-weight:900;font-size:1.4rem;transform:rotate(-3deg);box-shadow:var(--shadow);margin-top:8px}
 .price-tag span{font-size:3rem;line-height:1}
+.order__delivery{margin:16px 0 0;font-weight:800}
 .form{background:#fff;border:3px solid var(--ink);border-radius:28px;padding:32px;box-shadow:0 10px 0 var(--ink);display:grid;grid-template-columns:1fr 1fr;gap:6px 20px}
 .field{margin:0 0 6px;min-width:0}
 .field--full{grid-column:1/-1}

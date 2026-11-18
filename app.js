@@ -48,6 +48,11 @@
       if (!v.trim()) return '';
       return /^\+?[\d\s()-]{8,16}$/.test(v.trim()) ? '' : 'Telefonnummeret ser ikke riktig ut.';
     },
+    adresse: function (v) { return v.trim().length >= 3 ? '' : 'Skriv inn adressen vi skal levere til.'; },
+    poststed: function (v) {
+      if (!v.trim()) return 'Skriv inn postnummer og sted.';
+      return /^\d{4}\s+\S+/.test(v.trim()) ? '' : 'Skriv inn postnummer og sted (f.eks. 4010 Stavanger).';
+    },
     antall: function (v) {
       var n = parseInt(v, 10);
       if (isNaN(n) || n < 1) return 'Velg minst 1 bok.';

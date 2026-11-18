@@ -13,7 +13,7 @@
 <link rel="icon" href="assets/favicon-96.png?v=1" sizes="96x96" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
 <meta property="og:image" content="https://lesehesten.github.io/assets/lesehest-emblem.jpg">
-<link rel="stylesheet" href="styles.css?v=8">
+<link rel="stylesheet" href="styles.css?v=9">
 <link rel="stylesheet" href="premium.css?v=1">
 <script>
   (function () {
@@ -250,6 +250,7 @@
       <h2 id="bestill-title">Si ifra at du vil ha boka</h2>
       <p>Boka er ikke trykket ennå. Fyll ut skjemaet, så vet vi hvor mange som har lyst på den. Prisen vi tar sikte på, er 299&nbsp;kr per bok. <strong>Ingen betaling nå – helt uforpliktende.</strong> Vi sender deg en e-post når boka er klar.</p>
       <div class="price-tag" aria-hidden="true"><span>299</span> kr</div>
+      <p class="order__delivery">Vi leverer boka selv – gratis levering.</p>
     </div>
 
     <form class="form" id="order-form" action="https://formsubmit.co/dennisomundsen@gmail.com" method="POST" novalidate>
@@ -275,6 +276,16 @@
         <input id="tlf" name="Telefon" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="tlf-err">
         <p class="err" id="tlf-err" aria-live="polite"></p>
       </div>
+      <div class="field field--full">
+        <label for="adresse">Adresse <span class="req" aria-hidden="true">*</span></label>
+        <input id="adresse" name="Adresse" type="text" autocomplete="street-address" required aria-describedby="adresse-err">
+        <p class="err" id="adresse-err" aria-live="polite"></p>
+      </div>
+      <div class="field field--full">
+        <label for="poststed">Postnummer og sted <span class="req" aria-hidden="true">*</span></label>
+        <input id="poststed" name="Postnummer_og_sted" type="text" autocomplete="postal-code" required aria-describedby="poststed-err">
+        <p class="err" id="poststed-err" aria-live="polite"></p>
+      </div>
 
       <div class="field field--full">
         <label for="antall">Antall bøker <span class="req" aria-hidden="true">*</span></label>
@@ -294,7 +305,7 @@
 
       <div class="field field--full">
         <button class="btn btn--primary btn--big btn--block" type="submit" id="submit-btn">Si ifra · <span id="btn-sum">299 kr</span></button>
-        <p class="privacy">🔒 Vi bruker opplysningene dine kun til å holde oversikt over interessen og sende deg en e-post når boka er klar. Vi deler dem ikke med andre, og sletter dem når de ikke lenger trengs. Skjemaet sendes via tjenesten FormSubmit til e-posten vår. Ingen betaling nå – helt uforpliktende.</p>
+        <p class="privacy">🔒 Vi bruker opplysningene dine kun til å holde oversikt over interessen, vite hvor vi skal levere, og sende deg en e-post når boka er klar. Vi deler dem ikke med andre, og sletter dem når de ikke lenger trengs. Skjemaet sendes via tjenesten FormSubmit til e-posten vår. Ingen betaling nå – helt uforpliktende.</p>
       </div>
     </form>
   </div>
@@ -372,7 +383,7 @@
   <a class="btn btn--primary" href="#bestill">Si ifra</a>
 </div>
 
-<script src="app.js?v=6" defer></script>
+<script src="app.js?v=7" defer></script>
 <script src="assets/lenis.min.js" defer></script>
 <script src="premium.js?v=1" defer></script>
 </body>
