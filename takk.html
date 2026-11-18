@@ -7,7 +7,7 @@
 <meta name="robots" content="noindex">
 <link rel="icon" href="assets/favicon-32.png?v=1" sizes="32x32" type="image/png">
 <link rel="apple-touch-icon" href="assets/apple-touch-icon.png?v=2">
-<link rel="stylesheet" href="styles.css?v=10">
+<link rel="stylesheet" href="styles.css?v=11">
 </head>
 <body>
 <!-- Gjenbrukbare SVG-figurer -->
@@ -22,26 +22,40 @@
     <picture><source srcset="assets/lesehest-emblem.webp?v=2" type="image/webp"><img class="emblem emblem--thanks" src="assets/lesehest-emblem.png?v=2" width="176" height="142" alt="Lesehesten UB-logoen: en hest som leser i en bok"></picture>
 
     <h1>Tusen takk for bestillingen! 💛</h1>
-    <p class="lead" style="margin-inline:auto">Nå gjenstår bare betalingen.</p>
+    <p class="lead" style="margin-inline:auto">Nå gjenstår bare betalingen. Velg Vipps eller kort.</p>
 
-    <div class="vipps vipps--pay">
-      <p class="vipps__mark">Vipps</p>
-      <h2>Betal med Vipps</h2>
-      <p class="vipps__amount" id="pay-amount">299 kr per bok</p>
-      <p class="vipps__to">Vipps til</p>
-      <p class="vipps__number" id="vipps-number">960 40 533</p>
-      <div class="vipps__actions">
-        <button type="button" class="btn btn--vipps" id="copy-vipps" data-number="96040533">Kopier nummer</button>
-        <a class="btn btn--vipps-open" href="https://vipps.no/" rel="noopener" target="_blank">Åpne Vipps</a>
+    <div class="pay-options">
+      <div class="vipps vipps--pay">
+        <p class="vipps__mark">Vipps</p>
+        <h2>Betal med Vipps</h2>
+        <p class="vipps__amount" id="pay-amount">299 kr per bok</p>
+        <p class="vipps__to">Vipps til</p>
+        <p class="vipps__number" id="vipps-number">960 40 533</p>
+        <div class="vipps__actions">
+          <button type="button" class="btn btn--vipps" id="copy-vipps" data-number="96040533">Kopier nummer</button>
+          <a class="btn btn--vipps-open" href="https://vipps.no/" rel="noopener" target="_blank">Åpne Vipps</a>
+        </div>
+        <p class="vipps__feedback" id="copy-feedback" aria-live="polite"></p>
+        <p class="vipps__note">Merk betalingen med <strong>navnet ditt</strong></p>
       </div>
-      <p class="vipps__feedback" id="copy-feedback" aria-live="polite"></p>
-      <p class="vipps__note">Merk betalingen med <strong>navnet ditt</strong></p>
+
+      <p class="pay-or">eller</p>
+
+      <div class="vipps pay-card">
+        <p class="pay-card__mark">Kort</p>
+        <h2>Betal med kort</h2>
+        <p class="pay-card__sub">Kort, Apple Pay eller Google Pay</p>
+        <p class="pay-card__actions">
+          <a class="btn btn--card" href="https://buy.stripe.com/4gM9AT7Kvdcl6t6fNj8Vi00" target="_blank" rel="noopener">Betal med kort</a>
+        </p>
+        <p class="pay-card__note" id="card-qty-note" hidden></p>
+      </div>
     </div>
 
     <p class="thanks__confirm">Bestillingen er bekreftet når vi har mottatt betalingen.</p>
     <p><a class="btn btn--primary" href="./">Tilbake til forsiden</a></p>
   </div>
 </main>
-<script src="app.js?v=8" defer></script>
+<script src="app.js?v=9" defer></script>
 </body>
 </html>

@@ -133,16 +133,23 @@
 
   // Takk-side: vis beløpet fra bestillingen, ellers «299 kr per bok»
   var payAmount = document.getElementById('pay-amount');
+  var cardNote = document.getElementById('card-qty-note');
+  var stored = null;
+  try {
+    var raw = sessionStorage.getItem(ORDER_KEY);
+    if (raw) stored = JSON.parse(raw);
+  } catch (err) {}
   if (payAmount) {
     var text = '299 kr per bok';
-    try {
-      var raw = sessionStorage.getItem(ORDER_KEY);
-      if (raw) {
-        var stored = JSON.parse(raw);
-        if (stored && stored.totalText) text = stored.totalText;
-      }
-    } catch (err) {}
+    if (stored && stored.totalText) text = stored.totalText;
     payAmount.textContent = text;
+  }
+  if (cardNote) {
+    var n = stored && parseInt(stored.qty, 10);
+    if (n > 1) {
+      cardNote.textContent = 'Velg samme antall bøker (' + n + ') på betalingssiden.';
+      cardNote.hidden = false;
+    }
   }
 
   // Kopier Vipps-nummer

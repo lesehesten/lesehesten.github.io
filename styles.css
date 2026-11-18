@@ -228,8 +228,23 @@ details p{padding:0 22px 18px;margin:0;color:var(--muted)}
 .thanks picture{display:block}
 .emblem--thanks{margin:0 auto;padding:22px;background:#f5ebdd;border-radius:50%;width:228px;height:228px;object-fit:contain;border:4px dashed var(--sea);box-shadow:0 8px 0 var(--sun)}
 .thanks h1{margin-top:28px}
-.thanks .vipps{margin:28px auto 20px}
+.pay-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:20px 16px;max-width:920px;margin:28px auto 20px}
+.pay-options .vipps{margin:0;flex:1 1 280px;max-width:420px;display:flex;flex-direction:column;align-items:center}
+.pay-or{flex:0 0 auto;align-self:center;margin:0;font-weight:900;color:var(--muted);font-size:1.05rem}
+.pay-card__mark{display:inline-block;margin:0 0 10px;background:var(--sea);color:#fff;font-weight:900;font-size:1.35rem;letter-spacing:.03em;line-height:1;padding:8px 18px 9px;border-radius:999px}
+.pay-card h2{margin:0 0 .15em;font-size:1.55rem}
+.pay-card__sub{margin:.15em 0 1em;color:var(--muted);font-weight:700}
+.pay-card__actions{margin:8px 0 0;width:100%;display:flex;justify-content:center}
+.btn--card{background:var(--sea);color:#fff}
+.btn--card:hover{background:var(--sea-d)}
+.pay-card__note{margin:12px 0 0;color:var(--muted);font-size:.95rem;font-weight:700}
 .vipps--pay h2{margin:0 0 .15em;font-size:1.55rem}
 .vipps__amount{margin:.1em 0 .35em;font-size:clamp(2.1rem,6.5vw,3rem);font-weight:900;line-height:1.1;color:var(--berry-d);font-variant-numeric:tabular-nums}
 .thanks__confirm{font-weight:800;margin:0 auto 22px;max-width:28rem}
 body:has(.thanks){padding-bottom:0}
+@media (max-width:820px){
+  .pay-options{flex-direction:column;align-items:stretch}
+  .pay-options .vipps{max-width:none;width:100%}
+  .pay-or{text-align:center}
+  .pay-card__actions .btn{width:100%}
+}
